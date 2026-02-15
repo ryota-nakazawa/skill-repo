@@ -1,0 +1,7 @@
+name: weekly-report-from-daily-tasks
+version: 0.1.0
+description: Create weekly reports from daily task logs with a low-noise workflow.
+dependencies:
+  python:
+    - "python>=3.10"
+
