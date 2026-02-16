@@ -1,11 +1,14 @@
 # skill-repo
 
-`weekly-report-from-daily-tasks` を管理するリポジトリです。
+自作の Codex Skill を管理するリポジトリです。
 
 ## 含まれるスキル
 - `weekly-report-from-daily-tasks`
   - 日次ログ（プロジェクト名 / 進捗記録 / ひとこと）から週報を作成
   - 推奨運用は、Codex/Claude Code が日報を読んで所定フォーマットに整理
+- `html-slide-generator-ja`
+  - 日本語レポート/Markdownを16:9単一HTMLスライドに変換
+  - 遠目可読なデザイン、チャート/図解、キーボード操作、export mode を実装
 
 ## ディレクトリ
 - `weekly-report-from-daily-tasks/SKILL.md`
@@ -15,6 +18,10 @@
   - `daily/current/` 日報
   - `weekly/current/` 週報
   - `archive/` 過去データ
+- `html-slide-generator-ja/SKILL.md`
+- `html-slide-generator-ja/references/`
+- `html-slide-generator-ja/assets/`
+- `html-slide-generator-ja/agents/openai.yaml`
 
 ## 使い方
 1. 日報テンプレートを作成

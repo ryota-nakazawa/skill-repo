@@ -1,0 +1,4 @@
+interface:
+  display_name: "HTML Slide Generator (JA)"
+  short_description: "Create 16:9 HTML slides from Japanese markdown reports"
+  default_prompt: "Convert the provided Japanese markdown/report into a single-file 16:9 HTML slide deck with modern styling, strong readability, and keyboard navigation."
