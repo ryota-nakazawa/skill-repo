@@ -1,105 +1,123 @@
 ---
 name: html-slide-generator-ja
-description: Generate 16:9 single-file HTML slide decks from Japanese Markdown reports with clear long-distance readability and modern visual styling. Use when converting attached markdown/documents into presentation slides, defining slide structure and density, implementing keyboard navigation/UI, removing citation artifacts, adding understandable visual elements (charts/diagrams), and producing export-friendly HTML without external libraries.
+description: 日本語のレポートやMarkdownを、16:9・単一HTML・高可読デザインのスライドに変換するスキル。資料をスライド化したいとき、章立て設計、視覚要素（チャート/図解）追加、キーボード操作付きUI実装、引用アーティファクト除去、PNG出力対応を行うときに使う。
 ---
 
 # HTML Slide Generator JA
 
-## Overview
+## 概要
 
-- Convert a Japanese report-style Markdown file into a presentation-grade HTML deck.
-- Keep output as a single `index.html` file with embedded CSS/JS and no external dependencies.
-- Prioritize readability from distance (large type, high contrast, low clutter).
+- 日本語の文章レポートを、発表向けのHTMLスライドに変換する。
+- 出力は原則 `index.html` の単一ファイル（CSS/JS内包、外部依存なし）にする。
+- 遠目でも読めることを最優先にし、情報を整理して視覚化する。
 
-## Workflow
+## ワークフロー
 
-### 1. Read Source and Fix Constraints
+### 1. 入力を読み、制約を先に固定する
 
-- Read the entire source Markdown.
-- Extract headings and section boundaries before drafting slide titles.
-- Remove or ignore citation artifacts such as `cite...` and `entity...`.
-- Lock constraints early: aspect ratio, target slide count range, style direction, animation policy, and UI policy.
+- 入力文書全体を読む。
+- 見出し構造と章境界を抽出する。
+- `cite...` や `entity...` などのアーティファクトは除去する。
+- 先に固定する項目:
+  - アスペクト比（16:9）
+  - 枚数レンジ
+  - 情報密度
+  - デザイン方向
+  - アニメーション方針
+  - UI要素（進捗・目次・ページ番号）
 
-### 2. Build Slide Outline Before Coding
+### 2. 実装前にスライド構成を決める
 
-- Map one message per slide.
-- Preserve section order unless user explicitly asks to reorganize.
-- For dense reports, use 14-24 slides as default range.
-- Reserve dedicated slides for: title, agenda, key framework visuals, comparison tables, checklist/closing.
+- 1スライド1メッセージで分解する。
+- ユーザー要望がない限り、元資料の章順を維持する。
+- 密度が高い資料は 14〜24 枚を初期目安にする。
+- 次の役割スライドを優先的に確保する:
+  - タイトル
+  - アジェンダ
+  - キーフレームワーク図
+  - 比較表
+  - チェックリスト
+  - クロージング
 
-### 3. Implement Single-File Deck
+### 3. 単一HTMLとして実装する
 
-- Start from `assets/modern-16x9-template.html` when available.
-- Implement with one `index.html` containing HTML/CSS/JS.
-- Use a fixed stage design for 16:9.
-- Recommended base: `1600x900` stage scaled to viewport.
-- Include keyboard controls:
+- `assets/modern-16x9-template.html` があれば、それを起点にする。
+- 固定ステージで16:9を実装する（推奨: `1600x900`）。
+- 以下の操作を実装する:
   - `ArrowLeft` / `ArrowRight`
   - `Home` / `End`
-  - optional `M` for TOC
-- Include minimal presenter UI:
-  - progress bar
-  - page indicator
-  - optional TOC panel
+  - 必要時 `M` でTOC
+- 最小UIを実装する:
+  - 進捗バー
+  - ページ番号
+  - 必要時 TOC
 
-### 4. Apply Readability-First Visual Design
+### 4. 可読性優先でデザインする
 
-- Read `references/slide-design-rules-ja.md` before final styling.
-- Use explicit CSS variables for color tokens and typography.
-- Keep minimum size guidelines:
-  - title around 64px
-  - section heading around 42px
-  - body around 28px
-  - notes around 22px
-- Keep strong contrast and avoid overloaded backgrounds.
-- Prefer cards/grids/process blocks over long paragraphs.
+- 仕上げ前に `references/slide-design-rules-ja.md` を確認する。
+- カラーやサイズはCSS変数で管理する。
+- 最小フォントの目安:
+  - タイトル 64px
+  - 見出し 42px
+  - 本文 28px
+  - 注記 22px
+- 長文段落を避け、カード/グリッド/フローへ変換する。
 
-### 5. Add Visual Elements Where Useful
+### 5. 視覚要素を必ず設計に組み込む
 
-- Insert charts/diagram-like blocks where they improve comprehension.
-- Choose visual forms by message type:
-  - comparison -> matrix/table/bar
-  - progression -> timeline/stair/flowline
-  - composition -> donut/stacked blocks
-  - process -> node/arrow flow
-- Use CSS/SVG/native HTML for lightweight visuals.
-- Treat chart values as relative indicators unless hard data exists in source.
-- Keep labels readable at presentation distance.
+- 内容理解に寄与する位置へ、チャートや図解を入れる。
+- メッセージ種別で図解を選ぶ:
+  - 比較: マトリクス / 表 / バー
+  - 進行: タイムライン / ステップ
+  - 構成比: ドーナツ / 分割カード
+  - 手順: ノード + 矢印フロー
+- 数値根拠がない場合は、概念図/相対指標として扱う。
+- ラベルは遠目視認を優先する。
 
-### 6. Optional Export-Friendly Mode
+### 6. export mode（任意）を実装する
 
-- Add optional query-driven export mode for PNG capture.
-- Example policy:
+- PNG化が必要な場合はクエリ駆動の出力モードを実装する。
+- 例:
   - `?slide=<n>&export=1`
-  - hide HUD/TOC/progress overlays
-  - force full-frame slide render
-- Keep normal presentation mode unchanged.
+  - HUD / TOC / progress を非表示
+  - フルフレームで描画
 
-### 7. Validate Before Delivery
+### 7. PPTXテンプレート連携（任意）
 
-- Verify slide count matches planned outline.
-- Verify no citation artifacts remain.
-- Verify keyboard navigation and page indicator behavior.
-- Verify no external JS/CSS dependencies are required.
-- Verify all slides stay within 16:9 layout without overflow.
+- ユーザーが後から `assets` に `.pptx` テンプレートを追加することを想定する。
+- `assets/*.pptx` が存在する場合は、次を実施する:
+  - テーマ色、フォント、余白感、トーンを読み取り、HTMLトークンへ反映する。
+  - スライド構造（章扉、本文、比較表、締め）の型をテンプレートに寄せる。
+- 想定ファイル名は `assets/slide-template.pptx` とする。
+- ファイル名が異なる場合は、`assets` 内の `.pptx` を1つ選び、その採用ファイルを明示して作業する。
 
-## Resources
+### 8. 納品前に検証する
+
+- 枚数が構成どおりか確認する。
+- 16:9内でテキストがはみ出していないか確認する。
+- キーボード操作とページ表示の整合を確認する。
+- 外部依存（CDN、外部CSS/JS）がないことを確認する。
+- 引用アーティファクトが残っていないことを確認する。
+
+## リソース
 
 - `references/slide-design-rules-ja.md`
-  - Use as the design QA checklist before final delivery.
+  - 最終デザインQAチェックリストとして使う。
 - `assets/modern-16x9-template.html`
-  - Use as the default starter template for new slide generation tasks.
+  - HTMLスライドの初期テンプレートとして使う。
+- `assets/*.pptx`（後から追加される想定）
+  - PPTX側の見た目ルールを取り込み、HTMLデザインの基準として使う。
 
-## Output Contract
+## 出力契約
 
-- Main deliverable: `index.html`.
-- Optional deliverables:
+- 主出力: `index.html`
+- 任意出力:
   - `png-export/slide-XX.png`
-  - image-based PPTX for fidelity comparison
-  - hybrid editable PPTX when requested
+  - 画像ベースPPTX（見た目比較用）
+  - ハイブリッド編集可能PPTX
 
-## Default Decisions
+## デフォルト方針
 
-- Prefer readability over information density when tradeoffs appear.
-- Prefer deterministic structure over heavy animation.
-- Keep Japanese text natural and concise for spoken presentation.
+- 情報量より可読性を優先する。
+- 過剰な演出より安定した読みやすさを優先する。
+- 発表で読み上げやすい自然な日本語を使う。
